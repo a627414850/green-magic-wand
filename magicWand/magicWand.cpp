@@ -204,7 +204,7 @@ int main(int argc, char** argv)
 			cvReleaseImage(&filteredImage);
 			
 			//if escape is pressed break loop
-			char c = cvWaitKey(33);
+			char c = cvWaitKey(10);
 			if(c==27) break;
 		}
 	}
@@ -256,10 +256,11 @@ int main(int argc, char** argv)
 			else
 				previousCenter = currentCenter;
 			
-
+			//As above, adds circles to the images
 			cvCircle(result, currentCenter, 10, CV_RGB(10, 250, 100), -1, 8);
 			cvCircle(frame, currentCenter, 10, CV_RGB(10, 250, 100), -1, 8);
 
+			//As above, adds areas to the areas lists and checks for the different gestures returning boolean values
 			gesture.NextAreasNX(area.AreasNarrowX(currentCenter));
 			gesture.HorizontalGesture();
 
@@ -276,6 +277,7 @@ int main(int argc, char** argv)
 
 			if (!frame) break;
 			
+			//outputs images on to windows
 			cvShowImage("mine", frame );
 			
 			
@@ -284,12 +286,14 @@ int main(int argc, char** argv)
 			cvReleaseImage(&filteredImage);
 			
 			
-			char c = cvWaitKey(33);
+			char c = cvWaitKey(10);
 			if(c==27) break;
 
 
 		}
-	}
+	
+
+		//release captures and windows
 		cvReleaseCapture(&g_capture);
 		cvDestroyWindow("mine");
 		cvDestroyWindow("green");
@@ -297,10 +301,5 @@ int main(int argc, char** argv)
 
 		return 0;
 }
-
-
-
-
-
-
+	}
 

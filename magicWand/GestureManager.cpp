@@ -109,7 +109,7 @@ bool GestureManager::HorizontalGesture(){
 				previousX = areasNarrowX[i].x;
 			else return false;
 		}
-		cout << "Horizontal Gesture!! \n";
+		cout << "Horizontal Gesture!!))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))) \n";
 		return true;
 	}
 	else return false;
@@ -124,7 +124,7 @@ bool GestureManager::VerticalGesture(){
 				previousY = areasNarrowY[i].y;
 			else return false;
 		}
-		cout << "Vertical Gesture!! \n";
+		cout << "Vertical Gesture!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! \n";
 		return true;
 	}
 	else return false;
@@ -163,7 +163,7 @@ bool GestureManager::CircularGesture(){
 
 bool GestureManager::PointGesture(){
 	if (difftime(narrowYEndTimes.back(), narrowYStartTimes.back()) >= 3){
-		cout << "POINT GESTURE!! \n";
+		//cout << "POINT GESTURE!! \n";
 		return true;
 	}
 	else
