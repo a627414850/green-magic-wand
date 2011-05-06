@@ -30,28 +30,36 @@ CvPoint AreaRecognition::AreasNarrowX(CvPoint location){
 	int areaX;
 	int areaY;
 
-	if (location.x <= leftX)
-		areaX = 1;
-	else if (location.x > rightX)
-		areaX = 4;
-	else if (location.x > leftX && location.x <= centerX)
-		areaX =  2;
-	else 
-		areaX = 3;
+	if (location.x == 0 && location.y == 0)
+		return cvPoint(0, 0);
+	else{
+		if (location.x <= leftX)
+			areaX = 1;
+		else if (location.x > rightX)
+			areaX = 4;
+		else if (location.x > leftX && location.x <= centerX)
+			areaX =  2;
+		else 
+			areaX = 3;
 
-	if(location.y < wideTopY)
-		areaY = 1;
-	else if (location.y > wideBottomY)
-		areaY =  3;
-	else areaY =  2;
+		if(location.y < wideTopY)
+			areaY = 1;
+		else if (location.y > wideBottomY)
+			areaY =  3;
+		else areaY =  2;
 
-	return cvPoint(areaX, areaY);
+		return cvPoint(areaX, areaY);
+	}
 
 }
 
 CvPoint AreaRecognition::AreasNarrowY(CvPoint location){
 	int areaX;
 	int areaY;
+
+	if (location.x == 0 && location.y == 0)
+		return cvPoint(0, 0);
+
 
 	if (location.y <= topY)
 		areaY = 1;
@@ -75,6 +83,9 @@ CvPoint AreaRecognition::AreasNarrowY(CvPoint location){
 CvPoint AreaRecognition::AreasNarrowAll(CvPoint location){
 	int areaX;
 	int areaY;
+
+	if (location.x == 0 && location.y == 0)
+		return cvPoint(0, 0);
 
 	if (location.x <= leftX)
 		areaX = 1;
@@ -100,6 +111,9 @@ CvPoint AreaRecognition::AreasNarrowAll(CvPoint location){
 
 
 int AreaRecognition::AreaNarrowX(CvPoint location){
+	if (location.x == 0 && location.y == 0)
+		return 0;
+	
 	if (location.x <= leftX)
 		return 1;
 	else if (location.x > rightX)
@@ -111,6 +125,10 @@ int AreaRecognition::AreaNarrowX(CvPoint location){
 }
 
 int AreaRecognition::AreaWideX(CvPoint location){
+	
+	if (location.x == 0 && location.y == 0)
+		return 0;
+	
 	if(location.x < wideLeftX)
 		return 1;
 	else if (location.x > wideRightX)
@@ -119,6 +137,10 @@ int AreaRecognition::AreaWideX(CvPoint location){
 }
 
 int AreaRecognition::AreaWideY(CvPoint location){
+	
+	if (location.x == 0 && location.y == 0)
+		return 0;
+	
 	if(location.y < topY)
 		return 1;
 	else if (location.y > bottomY)

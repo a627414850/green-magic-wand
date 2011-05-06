@@ -42,10 +42,10 @@ void GestureManager::NextAreasNX(CvPoint currentAreas){
 			narrowXStartTimes.pop_front();
 			areasNarrowX.pop_front();
 		}
-		cout << "X Focus Areas start!! \n";
+		/*cout << "X Focus Areas start!! \n";
 		cout <<"Time between first and last: " << difftime(narrowXStartTimes.back(), narrowXEndTimes.front()) << "\n";
 		for(int i = 0; i < areasNarrowX.size(); i++)
-			cout<< "AreaX: " << areasNarrowX[i].x << "  AreaY: " << areasNarrowX[i].y << "  Time Start: " << narrowXStartTimes[i] << "Time End: " << narrowXEndTimes[i] << "\n";
+			cout<< "AreaX: " << areasNarrowX[i].x << "  AreaY: " << areasNarrowX[i].y << "  Time Start: " << narrowXStartTimes[i] << "Time End: " << narrowXEndTimes[i] << "\n";*/
 	}
 }
 
@@ -67,10 +67,10 @@ void GestureManager::NextAreasNY(CvPoint currentAreas){
 			narrowYStartTimes.pop_front();
 			areasNarrowY.pop_front();
 		}
-		cout << "Y Focus Areas start!! \n";
+		/*cout << "Y Focus Areas start!! \n";
 		cout <<"Time between first and last: " << difftime(narrowYStartTimes.back(), narrowYEndTimes.front()) << "\n";
 		for(int i = 0; i < areasNarrowY.size(); i++)
-			cout<< "AreaX: " << areasNarrowY[i].x << "  AreaY: " << areasNarrowY[i].y << "  Time: " "  Time Start: " << narrowYStartTimes[i] << "Time End: " << narrowYEndTimes[i] << "\n";
+			cout<< "AreaX: " << areasNarrowY[i].x << "  AreaY: " << areasNarrowY[i].y << "  Time: " "  Time Start: " << narrowYStartTimes[i] << "Time End: " << narrowYEndTimes[i] << "\n";*/
 	}
 }
 
@@ -92,10 +92,10 @@ void GestureManager::NextAreasCircle(CvPoint currentAreas){
 			circleStartTimes.pop_front();
 			circleEndTimes.pop_front();
 		}
-		cout << "Circle Areas start!! \n";
+		/*cout << "Circle Areas start!! \n";
 		cout <<"Time between first and last: " << difftime(circleStartTimes.back(), circleEndTimes.front()) << "\n";
 		for(int i = 0; i < areasCircle.size(); i++)
-			cout<< "AreaX: " << areasCircle[i].x << "  AreaY: " << areasCircle[i].y << "  Time: " "  Time Start: " << circleStartTimes[i] << "Time End: " << circleEndTimes[i] << "\n";
+			cout<< "AreaX: " << areasCircle[i].x << "  AreaY: " << areasCircle[i].y << "  Time: " "  Time Start: " << circleStartTimes[i] << "Time End: " << circleEndTimes[i] << "\n";*/
 	}
 }
 
@@ -163,7 +163,7 @@ bool GestureManager::CircularGesture(){
 
 bool GestureManager::PointGesture(){
 	if (difftime(narrowYEndTimes.back(), narrowYStartTimes.back()) >= 3){
-		//cout << "POINT GESTURE!! \n";
+		cout << "POINT GESTURE!! \n";
 		return true;
 	}
 	else
