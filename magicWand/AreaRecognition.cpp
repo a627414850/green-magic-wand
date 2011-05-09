@@ -1,7 +1,12 @@
+//These are the function implementations for the AreaRecognition class.
+
+
 #include "StdAfx.h"
 #include "AreaRecognition.h"
 
-
+//The class counstructor for area recornition takes an image and using that image's
+//width and height creates boundary values for a 4 x and y subdivision and for a 3 x and y subdivision of that image.
+//All boundary variables are saved in member variables fo the class
 AreaRecognition::AreaRecognition(IplImage* image)
 {
 	int narrowX = image->width / 4;
@@ -26,6 +31,9 @@ AreaRecognition::~AreaRecognition(void)
 {
 }
 
+
+//This function takes a point and using the 3 area y axis subdivision and 4 area x axis subdivision
+//returns a point with the x and y areas in which the original point parameter is located
 CvPoint AreaRecognition::AreasNarrowX(CvPoint location){
 	int areaX;
 	int areaY;
@@ -53,6 +61,9 @@ CvPoint AreaRecognition::AreasNarrowX(CvPoint location){
 
 }
 
+
+//This function takes a point and using the 3 area x axis subdivision and 4 area y axis subdivision
+//returns a point with the x and y areas in which the original point parameter is located
 CvPoint AreaRecognition::AreasNarrowY(CvPoint location){
 	int areaX;
 	int areaY;
@@ -80,6 +91,9 @@ CvPoint AreaRecognition::AreasNarrowY(CvPoint location){
 
 }
 
+
+//This function takes a point and using the 4 area y axis subdivision and 4 area x axis subdivision
+//returns a point with the x and y areas in which the original point parameter is located
 CvPoint AreaRecognition::AreasNarrowAll(CvPoint location){
 	int areaX;
 	int areaY;
@@ -110,6 +124,8 @@ CvPoint AreaRecognition::AreasNarrowAll(CvPoint location){
 }
 
 
+//This function takes a point and using the 4 area x axis subdivision
+//returns an int with the x area in which the original point parameter is located
 int AreaRecognition::AreaNarrowX(CvPoint location){
 	if (location.x == 0 && location.y == 0)
 		return 0;
@@ -124,6 +140,8 @@ int AreaRecognition::AreaNarrowX(CvPoint location){
 		return 3;
 }
 
+////This function takes a point and using the 3 area x axis subdivision
+//returns an int with the x area in which the original point parameter is located
 int AreaRecognition::AreaWideX(CvPoint location){
 	
 	if (location.x == 0 && location.y == 0)
@@ -136,6 +154,9 @@ int AreaRecognition::AreaWideX(CvPoint location){
 	else return 2;
 }
 
+
+////This function takes a point and using the 3 area y axis subdivision
+//returns an int with the y area in which the original point parameter is located
 int AreaRecognition::AreaWideY(CvPoint location){
 	
 	if (location.x == 0 && location.y == 0)
