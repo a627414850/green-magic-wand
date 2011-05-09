@@ -31,6 +31,7 @@ int main(int argc, char** argv)
 		
 		//book keeping variables for mode selection
 		int mode = 0;
+		int spell = false;
 		int counter = 0;
 		int count1 = -1;
 		int count2 = -1;
@@ -175,23 +176,37 @@ int main(int argc, char** argv)
 
 			//using the gesture object created above adds the next areas to the narrow x history que using a narrow x area model (4 subdivisions of x, 3 of y)
 			gesture.NextAreasNX(area.AreasNarrowX(currentCenter));
-			//using the areas in the narrow x history que finds out if a horizontal gesture has been performed.. returns a bool
-			gesture.HorizontalGesture();
-
 			//using the gesture object created above adds the next areas to the narrow y history que using a narrow y area model (3 subdivisions of x, 4 of y)
 			gesture.NextAreasNY(area.AreasNarrowY(currentCenter));
-			//using the areas in the narrow y history que finds out if a vertical gesture has been performed.. returns a bool
-			gesture.VerticalGesture();
-
 			//using the gesture object created above adds the next areas to the circle history que using a narrow x area model (4 subdivisions of x, 3 of y)
 			gesture.NextAreasCircle(area.AreasNarrowX(currentCenter));
-			//using the areas in the circle history finds out if a circle gesture has been performed.. returns a bool
-			gesture.CircularGesture();
 
-			//using the current history finds if a point gesture has been performed.. returns a bool
-			gesture.PointGesture();
-			//using the current history finds if a flick gesture has been performed.. returns a bool
-			gesture.FlickGesture();
+			//if no spell has been made
+			if (!spell){
+				//using the areas in the narrow x history que finds out if a horizontal gesture has been performed
+				if(gesture.HorizontalGesture())
+					spell = true;
+
+				//using the areas in the narrow y history que finds out if a vertical gesture has been performed
+				else if(gesture.VerticalGesture())
+					spell = true;
+
+			
+				//using the areas in the circle history finds out if a circle gesture has been performed
+				else if(gesture.CircularGesture())
+					spell = true;
+			}
+
+			//if a spell has been made
+			else{
+
+				//using the current history finds if a point gesture has been performed
+				if(gesture.PointGesture())
+					spell = false;
+				//using the current history finds if a flick gesture has been performed
+				else if (gesture.FlickGesture())
+					spell = false;
+			}
 			
 
 			if (!frame) break;
@@ -260,19 +275,38 @@ int main(int argc, char** argv)
 			cvCircle(result, currentCenter, 10, CV_RGB(10, 250, 100), -1, 8);
 			cvCircle(frame, currentCenter, 10, CV_RGB(10, 250, 100), -1, 8);
 
-			//As above, adds areas to the areas lists and checks for the different gestures returning boolean values
+			//As above, adds areas to the areas lists 
 			gesture.NextAreasNX(area.AreasNarrowX(currentCenter));
-			gesture.HorizontalGesture();
-
-
 			gesture.NextAreasNY(area.AreasNarrowY(currentCenter));
-			gesture.VerticalGesture();
-
 			gesture.NextAreasCircle(area.AreasNarrowX(currentCenter));
-			gesture.CircularGesture();
+			
+			//if no spell has been made
+			if(!spell){
+				//if horizontal gesture
+				if(gesture.HorizontalGesture())
+					spell = true;
 
-			gesture.PointGesture();
-			gesture.FlickGesture();
+				//if vertical gesture
+				else if(gesture.VerticalGesture())
+					spell = true;
+
+				//if circular gesture
+				else if (gesture.CircularGesture())
+					spell = true;
+				
+			}
+
+			//if a spell has been made
+			else{
+
+				//if point gesture
+				if(gesture.PointGesture())
+					spell = false;
+
+				//if flick gesture
+				else if (gesture.FlickGesture())
+					spell = false;
+			}
 			
 
 			if (!frame) break;

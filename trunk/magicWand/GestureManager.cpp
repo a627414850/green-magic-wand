@@ -1,6 +1,9 @@
+//Here the functions for the GestureManager class are implemented.
+//These funcions add area information to deques kept for each type of gesture
+//and also check those areas to see if a valid gesture has been input
+
 #include "StdAfx.h"
 #include "GestureManager.h"
-
 
 GestureManager::GestureManager(int historySizeX, int historySizeY, int historySizeCircle)
 {
@@ -173,7 +176,7 @@ bool GestureManager::PointGesture(){
 bool GestureManager::FlickGesture(){
 
 	if (narrowYEndTimes.size() == historyY && (difftime(narrowYEndTimes.back(), narrowYEndTimes[narrowYEndTimes.size() - 3]) < 2) && ( areasNarrowY[areasNarrowY.size() - 3].x == areasNarrowY.back().x) &&
-		(areasNarrowY[areasNarrowY.size() - 3].y == areasNarrowY.back().y) && (abs((areasNarrowY[areasNarrowY.size() - 2].y - areasNarrowY[areasNarrowY.size() - 3].y)) == 1)
+		(areasNarrowY[areasNarrowY.size() - 3].y == areasNarrowY.back().y) && (areasNarrowY[areasNarrowY.size() - 2].y - areasNarrowY[areasNarrowY.size() - 3].y == -1)
 		&& (areasNarrowY[areasNarrowY.size() - 2].x == areasNarrowY[areasNarrowY.size() - 3].x)){
 			cout << "FLICK GESTURE!!!!! \n";
 			return true;
