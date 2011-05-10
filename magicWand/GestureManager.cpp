@@ -5,6 +5,11 @@
 #include "StdAfx.h"
 #include "GestureManager.h"
 
+
+//This is the constructor for the gesture manager. This function takes three integers which
+//are the sizes for the horizontal gesture history, the vertical gesture history and the circle gesture history.
+//It then initializes the first history of each gesture to a zero area and the first time for the
+//start and end histories of each gesture also to zero
 GestureManager::GestureManager(int historySizeX, int historySizeY, int historySizeCircle)
 {
 	historyX = historySizeX;
@@ -28,6 +33,14 @@ GestureManager::~GestureManager(void)
 {
 }
 
+
+//This takes a point containing two areas. If the areas are the same as the areas of the last member
+//of the deque that contains the history of the narrow definition of x areas(that used by the horizontal
+//gesture) then the last member of that deque is popped and a new member is pushed with the current time.
+//If the areas are different then they are added to the deque as well as the current time being added to the 
+//start and end times of the narrow x definition time histories.
+//If the histories have become bigger than the specified history size then the front of those histories is popped
+//If the area is (0, 0) then this means nothing was detected in the picture and nothing is changed
 void GestureManager::NextAreasNX(CvPoint currentAreas){
 	if (currentAreas.x == 0 && currentAreas.y == 0);
 	else if (currentAreas.x == areasNarrowX.back().x && currentAreas.y == areasNarrowX.back().y){
@@ -52,6 +65,14 @@ void GestureManager::NextAreasNX(CvPoint currentAreas){
 	}
 }
 
+
+//This takes a point containing two areas. If the areas are the same as the areas of the last member
+//of the deque that contains the history of the narrow definition of y areas(that used by the vertical
+//gesture) then the last member of that deque is popped and a new member is pushed with the current time.
+//If the areas are different then they are added to the deque as well as the current time being added to the 
+//start and end times of the narrow y definition time histories.
+//If the histories have become bigger than the specified history size then the front of those histories is popped
+//If the area is (0, 0) then this means nothing was detected in the picture and nothing is changed
 void GestureManager::NextAreasNY(CvPoint currentAreas){
 	if (currentAreas.x == 0 && currentAreas.y == 0);
 	else if (currentAreas.x == areasNarrowY.back().x && currentAreas.y == areasNarrowY.back().y){
