@@ -9,7 +9,7 @@
 #include <cxcore.h>
 #include <highgui.h>
 
-enum Gestures{ horizontal, vertical, circle};
+
 
 
 class GestureManager

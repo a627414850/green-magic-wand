@@ -1,23 +1,19 @@
-﻿Build started 5/9/2011 9:01:17 PM.
+﻿Build started 5/11/2011 1:32:55 AM.
      1>Project "C:\Users\Ernesto\Documents\Magic Wand\green-magic-wand\magicWand\magicWand.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
          Creating "Debug\magicWand.unsuccessfulbuild" because "AlwaysCreate" was specified.
        ClCompile:
          All outputs are up-to-date.
-         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"StdAfx.h" /Fp"Debug\magicWand.pch" /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt GestureManager.cpp
-         GestureManager.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"StdAfx.h" /Fp"Debug\magicWand.pch" /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt magicWand.cpp
+         magicWand.cpp
      1>c:\program files (x86)\opencv2.2\include\opencv2\flann\logger.h(66): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
                  c:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(234) : see declaration of 'fopen'
-     1>c:\users\ernesto\documents\magic wand\green-magic-wand\magicwand\gesturemanager.cpp(56): warning C4018: '>' : signed/unsigned mismatch
-     1>c:\users\ernesto\documents\magic wand\green-magic-wand\magicwand\gesturemanager.cpp(89): warning C4018: '>' : signed/unsigned mismatch
-     1>c:\users\ernesto\documents\magic wand\green-magic-wand\magicwand\gesturemanager.cpp(114): warning C4018: '>' : signed/unsigned mismatch
-     1>c:\users\ernesto\documents\magic wand\green-magic-wand\magicwand\gesturemanager.cpp(131): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\ernesto\documents\magic wand\green-magic-wand\magicwand\gesturemanager.cpp(146): warning C4018: '<' : signed/unsigned mismatch
        ManifestResourceCompile:
          All outputs are up-to-date.
        Link:
          C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Ernesto\Documents\Magic Wand\green-magic-wand\Debug\magicWand.exe" /INCREMENTAL /NOLOGO "C:\Program Files (x86)\OpenCV2.2\lib\opencv_core220d.lib" "C:\Program Files (x86)\OpenCV2.2\lib\opencv_highgui220d.lib" "C:\Program Files (x86)\OpenCV2.2\lib\opencv_video220d.lib" "C:\Program Files (x86)\OpenCV2.2\lib\opencv_ml220d.lib" "C:\Program Files (x86)\OpenCV2.2\lib\opencv_legacy220d.lib" "C:\Program Files (x86)\OpenCV2.2\lib\opencv_imgproc220d.lib" kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Debug\magicWand.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"C:\Users\Ernesto\Documents\Magic Wand\green-magic-wand\Debug\magicWand.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Ernesto\Documents\Magic Wand\green-magic-wand\Debug\magicWand.lib" /MACHINE:X86 Debug\magicWand.exe.embed.manifest.res
          Debug\AreaRecognition.obj
+         Debug\GameScreen.obj
          Debug\GestureManager.obj
          Debug\magicWand.obj
          Debug\recognitionFunctions.obj
@@ -35,4 +31,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:07.44
+Time Elapsed 00:00:02.45
