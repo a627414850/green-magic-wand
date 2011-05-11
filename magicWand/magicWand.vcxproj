@@ -79,6 +79,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AreaRecognition.h" />
+    <ClInclude Include="GameScreen.h" />
     <ClInclude Include="GestureManager.h" />
     <ClInclude Include="recognitionFunctions.h" />
     <ClInclude Include="stdafx.h" />
@@ -86,6 +87,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AreaRecognition.cpp" />
+    <ClCompile Include="GameScreen.cpp" />
     <ClCompile Include="GestureManager.cpp" />
     <ClCompile Include="magicWand.cpp" />
     <ClCompile Include="recognitionFunctions.cpp" />

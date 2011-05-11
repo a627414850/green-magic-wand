@@ -1,5 +1,5 @@
-// OpenCV_Helloworld.cpp : Defines the entry point for the console application.
-// Created for build/install tutorial, Microsoft Visual Studio and OpenCV 2.2.0
+//Magic Wand - This program looks for a green object, finds its center of mass and depending on its motion 
+//finds if a gesture from a set of three has been used and uses it as a magic spell to attack a monster. 
 
 #include "stdafx.h"
 #include <iostream>
@@ -12,6 +12,7 @@
 #include "recognitionFunctions.h"
 #include "AreaRecognition.h"
 #include "GestureManager.h"
+#include "GameScreen.h"
 
 
 using namespace std;
@@ -41,14 +42,23 @@ int main(int argc, char** argv)
 		int currentX = 0;
 		int currentY = 0;
 
+		//Spell info
+		Spell currentSpell = noSpell;
+
 		//Creates a capture variable
 		CvCapture* g_capture;
 
 		//creates the window that will display the camera images
-		 cvNamedWindow("mine", 0 );
+		// cvNamedWindow("mine", 0 );
 		
 		 //creates the window that shows the green filtered image
-		cvNamedWindow("green", CV_WINDOW_AUTOSIZE );
+		//cvNamedWindow("green", CV_WINDOW_AUTOSIZE );
+
+		//creates the window that shows the green filtered image
+		cvNamedWindow("gameScreen", CV_WINDOW_AUTOSIZE );
+
+		//Creates the game image variable pointer
+		IplImage* playImage;
 		
 		//assignes the capture variable to a new camera capture (-1 is the default camera)
 		g_capture = cvCreateCameraCapture(-1);
@@ -62,6 +72,8 @@ int main(int argc, char** argv)
 
 		//an other image pointer we will use to turn the image into the green filtered image
 		IplImage* filteredImage;
+
+		GameScreen gameImage;
 
 		//This loop runs through the first 60 images first... then it observes the amount of green in two consecutive frames 
 		//and decides on which detection mode to use, either a straight green filter or also including an image subtraction algorithm.
@@ -82,8 +94,8 @@ int main(int argc, char** argv)
 			if (!frame) break;
 			
 			//outputs image on to windows
-			cvShowImage("mine", frame );
-			cvShowImage("green", filteredImage);
+			//cvShowImage("mine", frame );
+			//cvShowImage("green", filteredImage);
 
 			int pixelTotal = 0;
 			
@@ -170,9 +182,7 @@ int main(int argc, char** argv)
 			//using the cleaned up filtered image find the center of mass of all the green pixels in the image
 			currentCenter = CenterofMass(filteredImage);
 
-			//Draws a circle on top of the center of mass on each of the images that will be output on to windows
-			cvCircle(filteredImage, currentCenter , 10, CV_RGB(10, 250, 100), -1, 8);
-			cvCircle(frame, currentCenter, 10, CV_RGB(10, 250, 100), -1, 8);
+			
 
 			//using the gesture object created above adds the next areas to the narrow x history que using a narrow x area model (4 subdivisions of x, 3 of y)
 			gesture.NextAreasNX(area.AreasNarrowX(currentCenter));
@@ -184,38 +194,60 @@ int main(int argc, char** argv)
 			//if no spell has been made
 			if (!spell){
 				//using the areas in the narrow x history que finds out if a horizontal gesture has been performed
-				if(gesture.HorizontalGesture())
+				if(gesture.HorizontalGesture()){
+					currentSpell = greenSpell;
 					spell = true;
-
+				}
 				//using the areas in the narrow y history que finds out if a vertical gesture has been performed
-				else if(gesture.VerticalGesture())
+				else if(gesture.VerticalGesture()){
+					currentSpell = purpleSpell;
 					spell = true;
 
-			
+				}
 				//using the areas in the circle history finds out if a circle gesture has been performed
-				else if(gesture.CircularGesture())
+				else if(gesture.CircularGesture()){
+					currentSpell = orangeSpell;
 					spell = true;
+				}
 			}
 
 			//if a spell has been made
 			else{
 
 				//using the current history finds if a point gesture has been performed
-				if(gesture.PointGesture())
+				if(gesture.PointGesture()){
+					if(area.AreaWideX(currentCenter) == gameImage.monsterArea && currentSpell == gameImage.killSpell)
+						gameImage.CreateScene();
+					currentSpell = noSpell;
 					spell = false;
+				}
+
 				//using the current history finds if a flick gesture has been performed
-				else if (gesture.FlickGesture())
+				else if (gesture.FlickGesture()){
+					currentSpell = noSpell;
 					spell = false;
+				}
 			}
 			
 
 			if (!frame) break;
+
+			playImage = gameImage.showScene(currentCenter, currentSpell);
 			
+			/*//Draws a circle on top of the center of mass on each of the images that will be output on to windows
+			cvCircle(filteredImage, currentCenter , 10, CV_RGB(10, 250, 100), -1, 8);
+			cvCircle(frame, currentCenter, 10, CV_RGB(10, 250, 100), -1, 8);
+
 			// show images
 			cvShowImage("mine", frame );
-			cvShowImage("green", filteredImage);
+			cvShowImage("green", filteredImage);*/
+
+
+			cvCircle(playImage, currentCenter, 10, CV_RGB(255, 255, 255), -1, 4);
+			cvShowImage("gameScreen", playImage);
 
 			//release the image space in memory
+			cvReleaseImage(&playImage);
 			cvReleaseImage(&filteredImage);
 			
 			//if escape is pressed break loop
@@ -271,9 +303,7 @@ int main(int argc, char** argv)
 			else
 				previousCenter = currentCenter;
 			
-			//As above, adds circles to the images
-			cvCircle(result, currentCenter, 10, CV_RGB(10, 250, 100), -1, 8);
-			cvCircle(frame, currentCenter, 10, CV_RGB(10, 250, 100), -1, 8);
+			
 
 			//As above, adds areas to the areas lists 
 			gesture.NextAreasNX(area.AreasNarrowX(currentCenter));
@@ -281,42 +311,60 @@ int main(int argc, char** argv)
 			gesture.NextAreasCircle(area.AreasNarrowX(currentCenter));
 			
 			//if no spell has been made
-			if(!spell){
-				//if horizontal gesture
-				if(gesture.HorizontalGesture())
+			if (!spell){
+				//using the areas in the narrow x history que finds out if a horizontal gesture has been performed
+				if(gesture.HorizontalGesture()){
+					currentSpell = greenSpell;
+					spell = true;
+				}
+				//using the areas in the narrow y history que finds out if a vertical gesture has been performed
+				else if(gesture.VerticalGesture()){
+					currentSpell = purpleSpell;
 					spell = true;
 
-				//if vertical gesture
-				else if(gesture.VerticalGesture())
+				}
+				//using the areas in the circle history finds out if a circle gesture has been performed
+				else if(gesture.CircularGesture()){
+					currentSpell = orangeSpell;
 					spell = true;
-
-				//if circular gesture
-				else if (gesture.CircularGesture())
-					spell = true;
-				
+				}
 			}
 
 			//if a spell has been made
 			else{
 
-				//if point gesture
-				if(gesture.PointGesture())
+				//using the current history finds if a point gesture has been performed
+				if(gesture.PointGesture()){
+					if(area.AreaWideX(currentCenter) == gameImage.monsterArea && currentSpell == gameImage.killSpell)
+						gameImage.CreateScene();
+					currentSpell = noSpell;
 					spell = false;
+				}
 
-				//if flick gesture
-				else if (gesture.FlickGesture())
+				//using the current history finds if a flick gesture has been performed
+				else if (gesture.FlickGesture()){
+					currentSpell = noSpell;
 					spell = false;
+				}
 			}
 			
 
 			if (!frame) break;
+
+			playImage = gameImage.showScene(currentCenter, currentSpell);
+
+			/*//As above, adds circles to the images
+			cvCircle(result, currentCenter, 10, CV_RGB(10, 250, 100), -1, 8);
+			cvCircle(frame, currentCenter, 10, CV_RGB(10, 250, 100), -1, 8);
 			
 			//outputs images on to windows
 			cvShowImage("mine", frame );
+			cvShowImage("green", result );*/
+
+			cvCircle(playImage, currentCenter, 20, CV_RGB(255, 255, 255), -1, 4);
+			 cvShowImage("gameScreen", playImage);
 			
-			
-			 cvShowImage("green", result );
-			
+			 cvReleaseImage(&playImage);
 			cvReleaseImage(&filteredImage);
 			
 			
@@ -331,6 +379,7 @@ int main(int argc, char** argv)
 		cvReleaseCapture(&g_capture);
 		cvDestroyWindow("mine");
 		cvDestroyWindow("green");
+		cvDestroyWindow("gameScreen");
 
 
 		return 0;
