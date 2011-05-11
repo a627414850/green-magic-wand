@@ -4,6 +4,7 @@
 #include "stdafx.h"
 #include <iostream>
 #include <string>
+#include <sstream>
 
 #include <cv.h>
 #include <cxcore.h>
@@ -21,6 +22,13 @@ using namespace std;
 
 int main(int argc, char** argv)
 {
+
+const char* opencv_info= 0;
+const char* plugin_info= 0;
+cvGetModuleInfo(0, &opencv_info, &plugin_info);
+
+
+	printf("Libraries: %s/nModules: %s/n", opencv_info, plugin_info);
 	//useful set up variables
 		int tolerance = 100;
 		int imageSubtractionD = 2;
@@ -41,6 +49,10 @@ int main(int argc, char** argv)
 		CvPoint currentCenter;
 		int currentX = 0;
 		int currentY = 0;
+
+		//score info
+		int life = 6;
+		int score = 0;
 
 		//Spell info
 		Spell currentSpell = noSpell;
@@ -73,7 +85,12 @@ int main(int argc, char** argv)
 		//an other image pointer we will use to turn the image into the green filtered image
 		IplImage* filteredImage;
 
+		//Declaration of a GameScreen instance
 		GameScreen gameImage;
+
+		//Create a font and initiate it
+		CvFont scoreFont;
+		cvInitFont(&scoreFont, CV_FONT_HERSHEY_DUPLEX, 1.0 , 1.0, 0, 2, 8);
 
 		//This loop runs through the first 60 images first... then it observes the amount of green in two consecutive frames 
 		//and decides on which detection mode to use, either a straight green filter or also including an image subtraction algorithm.
@@ -216,8 +233,17 @@ int main(int argc, char** argv)
 
 				//using the current history finds if a point gesture has been performed
 				if(gesture.PointGesture()){
-					if(area.AreaWideX(currentCenter) == gameImage.monsterArea && currentSpell == gameImage.killSpell)
+					if(area.AreaWideX(currentCenter) == gameImage.monsterArea && currentSpell == gameImage.killSpell){
+						score++;
 						gameImage.CreateScene();
+					}
+					else{
+						life--;
+						if(life == 0){
+							char n = cvWaitKey(1000);
+							break;
+						}
+					}
 					currentSpell = noSpell;
 					spell = false;
 				}
@@ -243,7 +269,24 @@ int main(int argc, char** argv)
 			cvShowImage("green", filteredImage);*/
 
 
-			cvCircle(playImage, currentCenter, 10, CV_RGB(255, 255, 255), -1, 4);
+			char buffLife[100];
+			sprintf( buffLife, "Life: %d", life );
+			char buffScore[100];
+			sprintf( buffScore, "Score: %d", score );
+			
+
+			cvCircle(playImage, currentCenter, 20, CV_RGB(255, 255, 255), -1, 4);
+			cvPutText(playImage, buffLife,  cvPoint(180, 30), &scoreFont,  CV_RGB(255, 255, 255));
+			cvPutText(playImage, buffScore,  cvPoint(330, 30), &scoreFont,  CV_RGB(255, 255, 255));
+
+			if(life == 0){
+					
+					cvPutText(playImage, "You Lose!!",  cvPoint(180, 400), &scoreFont,  CV_RGB(255, 255, 255));
+					cvShowImage("gameScreen", playImage);
+					char n = cvWaitKey(5000);
+					break;
+			}
+
 			cvShowImage("gameScreen", playImage);
 
 			//release the image space in memory
@@ -335,8 +378,14 @@ int main(int argc, char** argv)
 
 				//using the current history finds if a point gesture has been performed
 				if(gesture.PointGesture()){
-					if(area.AreaWideX(currentCenter) == gameImage.monsterArea && currentSpell == gameImage.killSpell)
+					if(area.AreaWideX(currentCenter) == gameImage.monsterArea && currentSpell == gameImage.killSpell){
+						score++;
 						gameImage.CreateScene();
+					}
+					else{
+						life--;
+						
+					}
 					currentSpell = noSpell;
 					spell = false;
 				}
@@ -361,7 +410,23 @@ int main(int argc, char** argv)
 			cvShowImage("mine", frame );
 			cvShowImage("green", result );*/
 
+			char buffLife[100];
+			sprintf( buffLife, "Life: %d", life );
+			char buffScore[100];
+			sprintf( buffScore, "Score: %d", score );
+
+			
+
 			cvCircle(playImage, currentCenter, 20, CV_RGB(255, 255, 255), -1, 4);
+			cvPutText(playImage, buffLife,  cvPoint(180, 30), &scoreFont,  CV_RGB(255, 255, 255));
+			cvPutText(playImage, buffScore,  cvPoint(330, 30), &scoreFont,  CV_RGB(255, 255, 255));
+			if(life == 0){
+					
+					cvPutText(playImage, "You Lose!!",  cvPoint(180, 400), &scoreFont,  CV_RGB(255, 255, 255));
+					cvShowImage("gameScreen", playImage);
+					char n = cvWaitKey(5000);
+					break;
+			}
 			 cvShowImage("gameScreen", playImage);
 			
 			 cvReleaseImage(&playImage);
