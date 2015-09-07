@@ -1,0 +1,1 @@
+Uses OpenCv and C++ to create a visual interface for a simple wizarding game
